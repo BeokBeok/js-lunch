@@ -45,6 +45,24 @@
   color: #fcfcfd;
 }
 
+.gnb__add-button {
+  height: 40px;
+
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.gnb__add-button img {
+  display: block;
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}
+
 main {
   padding: 24px 16px;
 }
