@@ -126,7 +126,7 @@ function createFavoriteButton({ restaurant, onToggle }) {
     event.stopPropagation();
     restaurant.isFavorite = !restaurant.isFavorite;
     changeFavoriteIcon({
-      favoriteIcon,
+      favoriteIconEl: favoriteIcon,
       isFavorite: restaurant.isFavorite
     });
     onToggle(restaurant.name);
@@ -135,11 +135,11 @@ function createFavoriteButton({ restaurant, onToggle }) {
 }
 function createFavoriteIcon(isFavorite) {
   const favoriteIcon = document.createElement("img");
-  changeFavoriteIcon({ favoriteIcon, isFavorite });
+  changeFavoriteIcon({ favoriteIconEl: favoriteIcon, isFavorite });
   return favoriteIcon;
 }
-function changeFavoriteIcon({ favoriteIcon, isFavorite }) {
-  favoriteIcon.src = isFavorite ? favoriteFilledIcon : favoriteLinedIcon;
+function changeFavoriteIcon({ favoriteIconEl, isFavorite }) {
+  favoriteIconEl.src = isFavorite ? favoriteFilledIcon : favoriteLinedIcon;
 }
 function createRestaurantTitle({ name, distance }) {
   const container = document.createElement("div");
@@ -167,6 +167,7 @@ function createRestaurantLink(link) {
   container.textContent = link;
   container.href = link;
   container.target = "_blank";
+  container.rel = "noopener noreferrer";
   return container;
 }
 function createRestaurantCategoryIcon({ icon, category }) {
