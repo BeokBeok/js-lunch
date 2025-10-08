@@ -194,11 +194,11 @@ function getRestaurantCategoryIcon(category) {
 function createModal() {
   const modal = document.createElement("div");
   modal.className = "modal modal--open";
-  const backdrop2 = document.createElement("div");
-  backdrop2.className = "modal-backdrop";
+  const backdrop = document.createElement("div");
+  backdrop.className = "modal-backdrop";
   const container = document.createElement("div");
   container.className = "modal-container";
-  modal.append(backdrop2, container);
+  modal.append(backdrop, container);
   document.body.appendChild(modal);
   return { modal, container };
 }
@@ -403,7 +403,7 @@ function showNewRestaurantModal() {
     link,
     buttonContainer
   );
-  modal.append(backdrop, container);
+  modal.append(container);
   document.body.appendChild(modal);
 }
 function checkRequiredForms() {
@@ -475,7 +475,7 @@ function showRestaurantDetailModal(event) {
   infoDiv.append(title, description, link);
   detailContainer.append(header, infoDiv);
   container.append(detailContainer, buttonContainer);
-  modal.append(backdrop, container);
+  modal.append(container);
   document.body.appendChild(modal);
 }
 function toggleFavorite(restaurantName) {
