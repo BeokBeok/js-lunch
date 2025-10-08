@@ -191,7 +191,7 @@ function getRestaurantCategoryIcon(category) {
   };
   return iconMap[category] ?? "category-etc.png";
 }
-function createModal() {
+function createModalContainer() {
   const modal = document.createElement("div");
   modal.className = "modal modal--open";
   const backdrop = document.createElement("div");
@@ -200,7 +200,7 @@ function createModal() {
   container.className = "modal-container";
   modal.append(backdrop, container);
   document.body.appendChild(modal);
-  return { modal, container };
+  return container;
 }
 function closeExistingModal() {
   const prevModal = document.querySelector(".modal");
@@ -381,7 +381,7 @@ function showNewRestaurantModal() {
   if (closeExistingModal()) {
     return;
   }
-  const { container } = createModal();
+  const container = createModalContainer();
   const title = document.createElement("h3");
   title.className = "modal-title text-subtitle";
   title.textContent = "새로운 음식점";
@@ -432,7 +432,7 @@ function showRestaurantDetailModal(event) {
     link: target.dataset.link,
     isFavorite: target.dataset.isFavorite === "true"
   };
-  const { container } = createModal();
+  const container = createModalContainer();
   const detailContainer = document.createElement("div");
   detailContainer.className = "restaurant__detail";
   const categoryIcon = createRestaurantCategoryIcon({
