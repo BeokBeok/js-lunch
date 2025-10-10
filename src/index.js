@@ -178,12 +178,24 @@ function showNewRestaurantModal() {
     addRestaurant(formData);
   };
 
-  const buttonContainer = createButtonContainer({
-    negative: { onClick: closeExistingModal },
-    positive: { text: "추가하기", onClick: handleAdd },
+  const form = document.createElement("form");
+
+  const { buttonContainer, negativeButton, positiveButton } =
+    createButtonContainer({
+      negative: { type: "button" },
+      positive: { text: "추가하기", type: "submit" },
+    });
+
+  negativeButton.addEventListener("click", () => {
+    closeExistingModal();
   });
 
-  container.append(
+  form.addEventListener("submit", (event) => {
+    event.preventDefault();
+    handleAdd();
+  });
+
+  form.append(
     title,
     categoryItem,
     nameItem,
@@ -192,6 +204,7 @@ function showNewRestaurantModal() {
     linkItem,
     buttonContainer
   );
+  container.appendChild(form);
 }
 
 function showRestaurantDetailModal(event) {
