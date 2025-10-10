@@ -142,29 +142,24 @@ function createLinkItem() {
 function createButtonContainer({
   negative: {
     text: negativeText = "취소하기",
-    onClick: onNegativeClick = () => {
-    }
-  },
-  positive: {
-    text: positiveText = "확인하기",
-    onClick: onPositiveClick = () => {
-    }
-  }
+    type: negativeType = "button"
+  } = {},
+  positive: { text: positiveText = "확인하기", type: positiveType = "button" }
 }) {
   const buttonContainer = document.createElement("div");
   buttonContainer.className = "button-container";
   const negativeButton = document.createElement("button");
+  negativeButton.type = negativeType;
   negativeButton.className = "button";
   negativeButton.classList.add("button--secondary");
   negativeButton.textContent = negativeText;
   const positiveButton = document.createElement("button");
+  positiveButton.type = positiveType;
   positiveButton.className = "button";
   positiveButton.classList.add("button--primary");
   positiveButton.textContent = positiveText;
-  negativeButton.addEventListener("click", onNegativeClick);
-  positiveButton.addEventListener("click", onPositiveClick);
   buttonContainer.append(negativeButton, positiveButton);
-  return buttonContainer;
+  return { buttonContainer, negativeButton, positiveButton };
 }
 const asianCategoryIcon = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAYAAADhAJiYAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAH8SURBVHgB7ZW7LwRRFMbPegeFRqPwaBARNh4JoRBK1UY0eqvzH1BpUZIQpYJEKRJKj0REJJJVoyDitbHescc32YOb2b2zO7MzsyJ+yS9zs+4998z97lqif3yAmVthkH4DaKQbnsFb2EG5BA20wVP+wWish3IBNm6BN5zMue/xKTHp8C++FDHp8D4+i5h0eBdfBjHpcD8+zjwmHe7Fx/Zj0pF9fOw8Jh3O4+PsY9JhPz52LyYdmcfH7sekI3187F1MOvTxsfcx6UiOj/2LScd3fAUYFOHZBJdSHFwLDMk4AlfJGcOyh8EaPE4xJ4hejqyKGCfXp7zFIQyQTbAmDx4odfrJKVhcBe+kkPFsIJtgTTOMSY0rWGk1Py9NvUu4I+MKGCb7jMAyGe/Da8oGvFHIdPlqbKytho/K+iHKFuPewF2l6Ha6Y5d1FaZ1e07uoK54F4wqxTdho8X8OrgF4zL/HnaSm6DgOPxQmrqAM7AdlsBSGU9JA1+8wTFyG4luFD5w5rzAsGtRaZoakHsUt2jklRP3p9ezZkyNlcNBuAKfTSeyzIlvZiE5IN3/oZQEAoEYHhswCouVPxk/Q09wHXPeyS/w9sVwVoktbhrPG3PIL+SbpDawCBdMn02SX2CzehiRjefkxPLhtHx2AmvJT7BhDZxQo8G4SE6vkf4Kn2z8zgoShJFuAAAAAElFTkSuQmCC";
 const chineseCategoryIcon = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAYAAADhAJiYAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAANvSURBVHgB7ZdbSBVBGMfnVHSziO4XKSKiGxFFdCGiICiJinqIeugCJWQWRNhj9VIEUQ9B0QUipCgSpKcisB4EH6KLiWL2YFZiaSqKmaaVl6/fx86hdd09Z48eDaI//Jjdne+b+XZ25ptZY/4rtiKmHxKRBRQpUBGJRJrN3xKBbIYS+aNfcA0y4QG8hXzYByPMQIoOtkOLhFMXXIehJtmi0RRYB02SmDphS9h+InGCGEKRBYdgrgk352rhGVTa+7n22WHmmZi+imBGwVXoCDkStXAEJkPE09Z477O+BLQVukMGUw5zTBI0LEbdfhP/E9VBCRznc3ywL6I+qy1dUAivqf9J3QSulQbuv5pEhHNRwGjoqL2EXTDFzrOoj36uHGh32etKewKP4Qt8g09wSsKmBAxT4XtAQHchxcdnJORKeOmLXQgTzBp4F9DILXFNTq6HwxLYAfck/JyLqhVWxApmDlQGOL+HGS7bVfACfkj/dCNWQBdjOJ72BF4jyZFm/WXRtr35ooxikU+s3bCElVFm7XIpdppg1UAeFEELTIN1sN44m7FXmkjTaL/VO0IVAW/xESZaG01y1QF29XASpnp75NlQWAvFAb4b1G6Ix6/UJ/om2EP0jfZe88hYHzv13YjdOajzVvJMc1I5NBp/LTU+b7EN2lxRaw5Jc9VH4Kz0Xk26EKZ57JbDeciGYzAbnkuw0v0Cmg/NLqP7MMzW6RK/JL33Ns1Xa11t6CfVFNDusWsPjkWqINUvoN0ew02uuhPin2duis1NlGPEyciJSNPJSuMncSZkVJrmJ7k68stPelJc7PI/I+Gl0+EyjDNBojLd5fAGRtvnC8X/lFjsspkBnyW8dGR7be7eVfYQquy1GkePnh3G2bm9qmb1tNlrzV+pJpx0FWbh2xkzIAzqKTKsg24T0eVdqZ37NOxOZBNMOOmpMZO+WkxYMZSzxNlG1rieHfUZ9gKxxw/KeeIcLeIpW/r6JyI9d/YMn8b1wD/T1utPQGGcYPQcFXYk4waXE9CJjuRwWx/r+PEKJptkicbyAjrSxJgfIxhNiLeTGowN6IokrgY4YAZCNLwYGhMI5pHY+TVgEufPNUzyewpjzWCIjqbDQQk+O+nvzgIz2BJnf7sjPXOPTuC9ph/q3++tE5gerPR4qhm4AErJwt3mX9FvD0G9XmKQoe0AAAAASUVORK5CYII=";
@@ -183,6 +178,62 @@ function getRestaurantCategoryIcon(category) {
   };
   return iconMap[category] ?? etcCategoryIcon;
 }
+const MOCK_RESTAURANT_LIST = [
+  {
+    icon: getRestaurantCategoryIcon("기타"),
+    category: "기타",
+    name: "도스타코스 선릉점",
+    distance: 5,
+    description: "맥시칸 캐주얼 그릴",
+    link: "https://naver.me/Gn0yLQ8K",
+    isFavorite: false
+  },
+  {
+    icon: getRestaurantCategoryIcon("양식"),
+    category: "양식",
+    name: "이태리키친",
+    distance: 20,
+    description: "늘 변화를 추구하는 이태리키친입니다.",
+    link: "https://naver.me/5huapW2k",
+    isFavorite: false
+  },
+  {
+    icon: getRestaurantCategoryIcon("일식"),
+    category: "일식",
+    name: "잇쇼우",
+    distance: 10,
+    description: "잇쇼우는 정통 자가제면 사누끼 우동이 대표메뉴입니다. 기술은\n정성을 이길 수 없다는 신념으로 모든 음식에 최선을 다하는\n잇쇼우는 고객 한분 한분께 최선을 다하겠습니다",
+    link: "https://naver.me/FLyTJ4dC",
+    isFavorite: false
+  },
+  {
+    icon: getRestaurantCategoryIcon("중식"),
+    category: "중식",
+    name: "친친",
+    distance: 5,
+    description: "Since 2004 편리한 교통과 주차, 그리고 관록만큼 깊은 맛과\n정성으로 정통 중식의 세계를 펼쳐갑니다",
+    link: "https://naver.me/FV7Y4RTm",
+    isFavorite: false
+  },
+  {
+    icon: getRestaurantCategoryIcon("한식"),
+    category: "한식",
+    name: "피앙콩할머니",
+    distance: 10,
+    description: "평양 출신의 할머니가 수십 년간 운영해온 비지 전문점 피양콩\n할마니. 두부를 빼지 않은 되비지를 맛볼 수 있는 곳으로, ‘피양’은\n평안도 사투리로 ‘평양’을 의미한다. 딸과 함께 운영하는 이곳에선\n맷돌로 직접 간 콩만을 사용하며, 일체의 조미료를 넣지 않은\n건강식을 선보인다. 콩비지와 피양 만두가 이곳의 대표 메뉴지만,\n할머니가 옛날 방식을 고수하며 만들어내는 비지전골 또한 이 집의\n역사를 느낄 수 있는 특별한 메뉴다. 반찬은 손님들이 먹고 싶은\n만큼 덜어 먹을 수 있게 준비돼 있다.",
+    link: "https://naver.me/5Rh0ttMw",
+    isFavorite: false
+  },
+  {
+    icon: getRestaurantCategoryIcon("아시안"),
+    category: "아시안",
+    name: "호아빈 삼성점",
+    distance: 15,
+    description: "푸짐한 양에 국물이 일품인 쌀국수",
+    link: "https://naver.me/5WOQLjn6",
+    isFavorite: false
+  }
+];
 const KEY_LOCAL_STORAGE = "restaurants";
 function getRestaurantList() {
   return JSON.parse(localStorage.getItem(KEY_LOCAL_STORAGE)) || [];
@@ -192,63 +243,7 @@ function saveRestaurantList(list) {
 }
 function initRestaurantList() {
   if (getRestaurantList().length === 0) {
-    const restaurantData = [
-      {
-        icon: getRestaurantCategoryIcon("기타"),
-        category: "기타",
-        name: "도스타코스 선릉점",
-        distance: 5,
-        description: "맥시칸 캐주얼 그릴",
-        link: "https://naver.me/Gn0yLQ8K",
-        isFavorite: false
-      },
-      {
-        icon: getRestaurantCategoryIcon("양식"),
-        category: "양식",
-        name: "이태리키친",
-        distance: 20,
-        description: "늘 변화를 추구하는 이태리키친입니다.",
-        link: "https://naver.me/5huapW2k",
-        isFavorite: false
-      },
-      {
-        icon: getRestaurantCategoryIcon("일식"),
-        category: "일식",
-        name: "잇쇼우",
-        distance: 10,
-        description: "잇쇼우는 정통 자가제면 사누끼 우동이 대표메뉴입니다. 기술은\n정성을 이길 수 없다는 신념으로 모든 음식에 최선을 다하는\n잇쇼우는 고객 한분 한분께 최선을 다하겠습니다",
-        link: "https://naver.me/FLyTJ4dC",
-        isFavorite: false
-      },
-      {
-        icon: getRestaurantCategoryIcon("중식"),
-        category: "중식",
-        name: "친친",
-        distance: 5,
-        description: "Since 2004 편리한 교통과 주차, 그리고 관록만큼 깊은 맛과\n정성으로 정통 중식의 세계를 펼쳐갑니다",
-        link: "https://naver.me/FV7Y4RTm",
-        isFavorite: false
-      },
-      {
-        icon: getRestaurantCategoryIcon("한식"),
-        category: "한식",
-        name: "피앙콩할머니",
-        distance: 10,
-        description: "평양 출신의 할머니가 수십 년간 운영해온 비지 전문점 피양콩\n할마니. 두부를 빼지 않은 되비지를 맛볼 수 있는 곳으로, ‘피양’은\n평안도 사투리로 ‘평양’을 의미한다. 딸과 함께 운영하는 이곳에선\n맷돌로 직접 간 콩만을 사용하며, 일체의 조미료를 넣지 않은\n건강식을 선보인다. 콩비지와 피양 만두가 이곳의 대표 메뉴지만,\n할머니가 옛날 방식을 고수하며 만들어내는 비지전골 또한 이 집의\n역사를 느낄 수 있는 특별한 메뉴다. 반찬은 손님들이 먹고 싶은\n만큼 덜어 먹을 수 있게 준비돼 있다.",
-        link: "https://naver.me/5Rh0ttMw",
-        isFavorite: false
-      },
-      {
-        icon: getRestaurantCategoryIcon("아시안"),
-        category: "아시안",
-        name: "호아빈 삼성점",
-        distance: 15,
-        description: "푸짐한 양에 국물이 일품인 쌀국수",
-        link: "https://naver.me/5WOQLjn6",
-        isFavorite: false
-      }
-    ];
-    saveRestaurantList(restaurantData);
+    saveRestaurantList(MOCK_RESTAURANT_LIST);
   }
 }
 function removeRestaurant(restaurantName) {
@@ -450,25 +445,34 @@ function showNewRestaurantModal() {
   const distanceItem = createDistanceItem();
   const descriptionItem = createDescriptionItem();
   const linkItem = createLinkItem();
-  const handleAdd = () => {
-    var _a;
-    const category = categoryItem.querySelector("select").value;
-    const name = nameItem.querySelector("input").value.trim();
-    const distance = distanceItem.querySelector("select").value;
-    const description = descriptionItem.querySelector("textarea").value;
-    const link = (_a = linkItem.querySelector("input")) == null ? void 0 : _a.value;
-    if (!(category && name && distance)) {
+  const handleAdd = (form2) => {
+    const formData = new FormData(form2);
+    const data = {
+      category: formData.get("category"),
+      name: formData.get("name").trim(),
+      distance: formData.get("distance"),
+      description: formData.get("description"),
+      link: formData.get("link")
+    };
+    if (!(data.category && data.name && data.distance)) {
       alert("카테고리, 이름, 거리가 모두 입력되어야 합니다.");
       return;
     }
-    const formData = { category, name, distance, description, link };
-    addRestaurant(formData);
+    addRestaurant(data);
   };
-  const buttonContainer = createButtonContainer({
-    negative: { onClick: closeExistingModal },
-    positive: { text: "추가하기", onClick: handleAdd }
+  const form = document.createElement("form");
+  const { buttonContainer, negativeButton } = createButtonContainer({
+    negative: { type: "button" },
+    positive: { text: "추가하기", type: "submit" }
   });
-  container.append(
+  negativeButton.addEventListener("click", () => {
+    closeExistingModal();
+  });
+  form.addEventListener("submit", (event) => {
+    event.preventDefault();
+    handleAdd(event.target);
+  });
+  form.append(
     title,
     categoryItem,
     nameItem,
@@ -477,6 +481,7 @@ function showNewRestaurantModal() {
     linkItem,
     buttonContainer
   );
+  container.appendChild(form);
 }
 function showRestaurantDetailModal(event) {
   if (closeExistingModal()) {
@@ -516,20 +521,16 @@ function showRestaurantDetailModal(event) {
     description: restaurant.description
   });
   const link = createRestaurantLink(restaurant.link);
-  const buttonContainer = createButtonContainer({
-    negative: {
-      text: "삭제하기",
-      onClick: () => {
-        const restaurantList = removeRestaurant(restaurant.name);
-        closeExistingModal();
-        renderList(restaurantList);
-      }
-    },
-    positive: {
-      text: "닫기",
-      onClick: closeExistingModal
-    }
+  const { buttonContainer, negativeButton, positiveButton } = createButtonContainer({
+    negative: { text: "삭제하기" },
+    positive: { text: "닫기" }
   });
+  negativeButton.addEventListener("click", () => {
+    const restaurantList = removeRestaurant(restaurant.name);
+    closeExistingModal();
+    renderList(restaurantList);
+  });
+  positiveButton.addEventListener("click", closeExistingModal);
   header.append(categoryIcon, favoriteButton);
   infoDiv.append(title, description, link);
   detailContainer.append(header, infoDiv);
