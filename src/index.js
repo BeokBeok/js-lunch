@@ -161,21 +161,22 @@ function showNewRestaurantModal() {
   const descriptionItem = createDescriptionItem();
   const linkItem = createLinkItem();
 
-  const handleAdd = () => {
-    const category = categoryItem.querySelector("select").value;
-    const name = nameItem.querySelector("input").value.trim();
-    const distance = distanceItem.querySelector("select").value;
-    const description = descriptionItem.querySelector("textarea").value;
-    const link = linkItem.querySelector("input")?.value;
+  const handleAdd = (form) => {
+    const formData = new FormData(form);
+    const data = {
+      category: formData.get("category"),
+      name: formData.get("name").trim(),
+      distance: formData.get("distance"),
+      description: formData.get("description"),
+      link: formData.get("link"),
+    };
 
-    if (!(category && name && distance)) {
+    if (!(data.category && data.name && data.distance)) {
       alert("카테고리, 이름, 거리가 모두 입력되어야 합니다.");
       return;
     }
 
-    const formData = { category, name, distance, description, link };
-
-    addRestaurant(formData);
+    addRestaurant(data);
   };
 
   const form = document.createElement("form");
@@ -192,7 +193,7 @@ function showNewRestaurantModal() {
 
   form.addEventListener("submit", (event) => {
     event.preventDefault();
-    handleAdd();
+    handleAdd(event.target);
   });
 
   form.append(
