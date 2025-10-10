@@ -256,20 +256,19 @@ function showRestaurantDetailModal(event) {
 
   const link = createRestaurantLink(restaurant.link);
 
-  const buttonContainer = createButtonContainer({
-    negative: {
-      text: "삭제하기",
-      onClick: () => {
-        const restaurantList = removeRestaurant(restaurant.name);
-        closeExistingModal();
-        renderList(restaurantList);
-      },
-    },
-    positive: {
-      text: "닫기",
-      onClick: closeExistingModal,
-    },
+  const { buttonContainer, negativeButton, positiveButton } =
+    createButtonContainer({
+      negative: { text: "삭제하기" },
+      positive: { text: "닫기" },
+    });
+
+  negativeButton.addEventListener("click", () => {
+    const restaurantList = removeRestaurant(restaurant.name);
+    closeExistingModal();
+    renderList(restaurantList);
   });
+
+  positiveButton.addEventListener("click", closeExistingModal);
 
   header.append(categoryIcon, favoriteButton);
   infoDiv.append(title, description, link);
